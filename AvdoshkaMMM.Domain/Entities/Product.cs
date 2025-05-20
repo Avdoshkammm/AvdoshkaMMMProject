@@ -7,5 +7,6 @@
         public string Description { get; set; }
         public decimal Cost { get; set; }
         public int Quantity { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }
