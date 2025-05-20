@@ -1,7 +1,14 @@
+using AvdoshkaMMM.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<AvdoshkaMMMDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CS"));
+});
 
 var app = builder.Build();
 
