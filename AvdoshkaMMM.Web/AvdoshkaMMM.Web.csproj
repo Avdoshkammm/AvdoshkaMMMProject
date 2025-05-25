@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AvdoshkaMMM.Application\AvdoshkaMMM.Application.csproj" />
     <ProjectReference Include="..\AvdoshkaMMM.Infrastructure\AvdoshkaMMM.Infrastructure.csproj" />
   </ItemGroup>
 
