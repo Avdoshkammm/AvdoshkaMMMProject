@@ -11,5 +11,8 @@ namespace AvdoshkaMMM.Application.Interfaces
     {
         Task<IEnumerable<ProductDTO>> GetValues();
         Task<ProductDTO> GetValue(int id);
+        Task<ProductDTO> CreateValue(ProductDTO productDTO);
+        Task<ProductDTO> UpdateValue(int id, ProductDTO productDTO);
+        Task DeleteValue(int id);
     }
 }

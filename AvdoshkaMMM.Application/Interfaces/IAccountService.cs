@@ -10,6 +10,6 @@ namespace AvdoshkaMMM.Application.Interfaces
     public interface IAccountService
     {
         Task Register(UserDTO user, string password);
-        Task Login(UserDTO user);
+        Task Login(UserDTO userdto);
     }
 }

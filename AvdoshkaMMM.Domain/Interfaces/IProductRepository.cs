@@ -12,7 +12,7 @@ namespace AvdoshkaMMM.Domain.Interfaces
         Task<IEnumerable<Product>> GetValues();
         Task<Product> GetValue(int id);
         Task CreateValue(Product product);
-        Task UpdateValue(Product product);
+        void UpdateValue(Product product);
         Task DeleteValue(int id);
     }
 }

@@ -20,4 +20,8 @@
     <ProjectReference Include="..\AvdoshkaMMM.Infrastructure\AvdoshkaMMM.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
+  </ItemGroup>
+
 </Project>

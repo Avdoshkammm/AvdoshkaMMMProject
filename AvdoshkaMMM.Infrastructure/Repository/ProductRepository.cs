@@ -17,65 +17,68 @@ namespace AvdoshkaMMM.Infrastructure.Repository
         }
         public async Task<IEnumerable<Product>> GetValues()
         {
-            IEnumerable<Product> products = await db.Products.ToListAsync();
             try
             {
+                IEnumerable<Product> products = await db.Products.AsNoTracking().ToListAsync();
                 return products;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                logger.LogError($"{ex.Message.ToString()}\nОшибка вывода всех продуктов");
-                return null;
+                logger.LogError(ex, "Ошибка вывода продуктов");
+                throw;
             }
         }
         public async Task<Product> GetValue(int id)
         {
-            Product? product = await db.Products.FindAsync(id);
             try
             {
+                Product? product = await db.Products.AsNoTracking().FirstOrDefaultAsync(x => x.ID == id);
                 return product;
             }
             catch(Exception ex)
             {
-                logger.LogError($"{ex.Message.ToString()}\nОшибка вывода продукта");
-                return null;
+                logger.LogError($"{ex}\nОшибка вывода продукта с ID {id}");
+                throw;
             }
         }
         public async Task CreateValue(Product product)
         {
-            await db.Products.AddAsync(product);
             try
             {
-                await db.SaveChangesAsync();
+                await db.Products.AddAsync(product);
             }
             catch(Exception ex)
             {
                 logger.LogError($"{ex.Message.ToString()}\nОшибка создания продукта");
+                throw;
             }
         }
-        public async Task UpdateValue(Product product)
+        public void UpdateValue(Product product)
         {
-            db.Products.Update(product);
             try
             {
-                await db.SaveChangesAsync();
+                db.Products.Update(product);
             }
             catch(Exception ex)
             {
                 logger.LogError($"{ex.Message.ToString()}\nОшибка обновления продукта");
+                throw;
             }
         }
         public async Task DeleteValue(int id)
         {
-            Product? product = await db.Products.FindAsync(id);
-            db.Products.Remove(product);
             try
             {
-                await db.SaveChangesAsync();
+                Product? product = await db.Products.FindAsync(id);
+                if (product != null)
+                {
+                    db.Products.Remove(product);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                logger.LogError($"{ex.Message.ToString()}\nОшибка удаления продукта");
+                logger.LogError($"{ex.Message}\nОшибка удаления продукта");
+                throw;
             }
         }
     }

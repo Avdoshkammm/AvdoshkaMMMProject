@@ -9,7 +9,7 @@ namespace AvdoshkaMMM.Domain.Interfaces
 {
     public interface IAccountRepository
     {
-        Task<User> Login(User user);
+        Task<bool> Login(User user);
         Task<User> Register(User user, string password);
     }
 }

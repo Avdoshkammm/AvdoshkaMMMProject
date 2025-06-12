@@ -18,9 +18,9 @@ namespace AvdoshkaMMM.Application.Services
             mapper = _mapper;
             logger = _logger;
         }
-        public async Task Login(UserDTO user)
+        public async Task Login(UserDTO userdto)
         {
-            User servUser = mapper.Map<User>(user);
+            User servUser = mapper.Map<User>(userdto);
             try
             {
                 await repository.Login(servUser);

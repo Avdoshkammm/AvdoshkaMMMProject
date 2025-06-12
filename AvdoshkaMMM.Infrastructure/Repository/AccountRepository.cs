@@ -2,11 +2,6 @@
 using AvdoshkaMMM.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AvdoshkaMMM.Infrastructure.Repository
 {
@@ -22,23 +17,22 @@ namespace AvdoshkaMMM.Infrastructure.Repository
             logger = _logger;
         }
 
-        public async Task<User> Login(User user)
+        public async Task<bool> Login(User user)
         {
-            User? loginUser = await userManager.FindByEmailAsync(user.Email);
+            User? loginUser = await userManager.FindByEmailAsync(user.UserName);
             if (loginUser == null)
             {
                 loginUser = await userManager.FindByNameAsync(user.UserName);
+                if(loginUser == null)
+                {
+                    return false;
+                }
+                var result = await signInManager.PasswordSignInAsync(loginUser, user.PasswordHash, isPersistent: false, lockoutOnFailure:false);
+                return result.Succeeded;
             }
-            try
-            {
-                return loginUser;
-            }
-            catch(Exception ex)
-            {
-                logger.LogError(ex.Message.ToString(), "$\nОшибка авторизации в репозитории");
-                return null;
-            }
+            return false;
         }
+
 
         public async Task<User> Register(User user, string password)
         {
@@ -66,8 +60,13 @@ namespace AvdoshkaMMM.Infrastructure.Repository
                         logger.LogError(error.Description);
                     }
                 }
+                return user;
             }
-            return user;
+            else
+            {
+                logger.LogWarning("Пользователь существует(репозиторий)");
+                return null;
+            }
         }
 
     }
